@@ -40,16 +40,29 @@ class StreamingApi {
         let data = await res.json();
         return data;
     }
+
+    async getTitlePreview(id) {
+        let res = await fetch(`${this.siteUrl}/api/titles/preview/${id}`, {
+            "body": null,
+            "method": "POST"
+        });
+        let data = await res.json();
+        return data;
+    }
 }
 
 
 function main() {
     const siteUrl = 'https://streamingcommunity.computer';
     const streamingApi = new StreamingApi(siteUrl);
-    streamingApi.getInertia().then(inertiaVersion => {
-        streamingApi.search(inertiaVersion,'adventure').then(data => {
+    /*streamingApi.getInertia().then(inertiaVersion => {
+        streamingApi.search(inertiaVersion, 'adventure').then(data => {
             console.log(data);
         });
+    });*/
+
+    streamingApi.getTitlePreview(5471).then(data => {
+        console.log(data);
     });
 }
 
