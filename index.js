@@ -49,20 +49,43 @@ class StreamingApi {
         let data = await res.json();
         return data;
     }
+
+    async getTitle(inertia,id,title,season) {
+        let res = await fetch(`https://streamingcommunity.computer/titles/${id}-${title}/${season}`, {
+            "headers": {
+                "x-inertia": "true",
+                "x-inertia-version": `${inertia}`
+            },
+            "body": null,
+            "method": "GET"
+        });
+        let data = await res.json();
+        return data;
+    }
+
+    
+
+    async getEpisode(inertia,id,episode) {
+        let res = await fetch(`${this.siteUrl}/watch/${id}?e=${episode}`, {
+            "headers": {
+              "x-inertia": "true",
+              "x-inertia-version": `${inertia}`,
+            },
+            "body": null,
+            "method": "GET"
+          });
+    }
 }
 
 
 function main() {
     const siteUrl = 'https://streamingcommunity.computer';
     const streamingApi = new StreamingApi(siteUrl);
-    /*streamingApi.getInertia().then(inertiaVersion => {
-        streamingApi.search(inertiaVersion, 'adventure').then(data => {
-            console.log(data);
+    streamingApi.getInertia().then(inertiaVersion => {
+        streamingApi.getTitle(inertiaVersion,5471,"adventure-time").then(data => {
+            let loadedSeason = data["props"]["loadedSeason"];
+            console.log(loadedSeason["episodes"].length);
         });
-    });*/
-
-    streamingApi.getTitlePreview(5471).then(data => {
-        console.log(data);
     });
 }
 
